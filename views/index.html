@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Url Shortener Microservice</title>
+    <style>
+        html{
+            font-size: 62.5%;
+            font-family: arial, sans-serif;
+        }
+        body{
+            display: flex;
+            flex-direction: column;            
+            align-items: center;
+            gap: 10px;
+        }
+        section{
+            background-color: #c3c3c3;
+            width: 100%;
+            max-width: 1200px;        
+            margin: 0 auto;
+            padding: 10px;
+        }
+        h1{
+            font-size: 5rem;
+        }
+        h2{
+            font-size: 3.6rem;
+        } 
+        h3{
+            font-size: 2.6rem;
+        }      
+        legend{
+            font-size: 2rem;
+        } 
+        label{
+            font-size: 1.8rem;
+        }
+        form{
+            text-align: center;
+            margin: 0 auto;
+        }
+        form input{
+            width: 50rem;
+            height: 5rem;
+            font-size: 2rem;
+
+        }
+        form button{            
+            padding: 0 2rem;
+            height: 5rem;
+            font-size: 2rem;
+            border: none;
+            cursor: pointer;
+        }
+        ul{
+            font-size: 2.8rem;
+        } 
+        ul li{
+            padding: 10px 0;            
+        }
+        p{
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>URL Shortener Microservice</h1>
+    <section>
+        <h2>Short URL creation</h2>                
+        <form method="POST" name="url" action="/api/shorturl">
+            <fieldset>
+                <legend>URL Shortener Form</legend>
+                    <label>
+                        URL:                         
+                    </label> 
+                    <input type="text" name="url" required/>
+                    <button type="submit">Create Short Link</button>                
+            </fieldset>            
+        </form>
+    </section>
+    <section>
+        <h2>API Routes</h2>
+        <h3>1) Create URL with a post request</h3>
+        <p>https://[Project URL]/api/shorturl</p>        
+        <h3>2) Use created short url</h3>
+        <p>https://[Project URL]/api/shorturl/[Short URL]</p>
+    </section>        
+    <section>
+        <h2>API Response Example</h2>
+        <p>{"original_url","https://sadaqatdahani786.github.io/", "short_url": "https://[Project URL]/api/shorturl/[Short URL Number]"}</p>
+    </section>        
+    <p>Developed by <a href="https://sadaqatdahani786.github.io">Sadaqat Dahani</a></p>
+</body>
+</html>
