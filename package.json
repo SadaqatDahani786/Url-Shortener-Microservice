@@ -1,0 +1,27 @@
+{
+  "name": "url-shortener-microservice",
+  "version": "1.0.0",
+  "description": "A project to earn certificate for Back End Development and APIs from freeCodeCamp.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "watch": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SadaqatDahani786/Url-Shortener-Microservice.git"
+  },
+  "author": "Sadaqat Dahani",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SadaqatDahani786/Url-Shortener-Microservice/issues"
+  },
+  "homepage": "https://github.com/SadaqatDahani786/Url-Shortener-Microservice#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
