@@ -77,6 +77,7 @@ app.post("/api/shorturl", (req, res) => {
     /^(?:(?:https?)|(?:ftp)):\/{2}(?:w{3}\.)?([^\.\s\W]+\.[^\/\s\W]+)\/?$/g;
 
   //2) Url
+  const origUrl = req.body.url;
   const url = req.body.url.replace(regex, "$1");
 
   //3) Check if it's a valid url address of a website
@@ -100,7 +101,7 @@ app.post("/api/shorturl", (req, res) => {
             (err) => {
               //If file creation failed, send response error, else new entry
               if (err) res.json({ error: "Internal server error." });
-              else res.json(lineToAppend);
+              else res.json({ ...lineToAppend, original_url: origUrl });
             }
           );
         else {
@@ -109,7 +110,7 @@ app.post("/api/shorturl", (req, res) => {
           const foundItem = lists.find((l) => l.original_url === url);
 
           //2) If exist, send response with item found, else add new entry into file
-          if (foundItem) res.json(foundItem);
+          if (foundItem) res.json({ ...foundItem, original_url: origUrl });
           else {
             //1) Plus counter for short url
             lineToAppend.short_url = lists[lists.length - 1].short_url + 1;
@@ -128,7 +129,7 @@ app.post("/api/shorturl", (req, res) => {
                   //If err, send response error, else proceed further
                   (err) => {
                     if (err) res.json({ error: "Internal server error." });
-                    else res.json(lineToAppend);
+                    else res.json({ ...lineToAppend, original_url: origUrl });
                   }
                 );
               }
