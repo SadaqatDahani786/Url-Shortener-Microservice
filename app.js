@@ -61,7 +61,7 @@ app.get("/api/shorturl/:url", (req, res) => {
       //2) If not exist, return, else redirect to original url
       if (!foundItem)
         res.json({ error: "There's no such url exist on our database." });
-      else res.redirect(303, "https://" + foundItem.original_url + "/");
+      else res.redirect(303, foundItem.original_url);
     }
   });
 });
@@ -77,7 +77,7 @@ app.post("/api/shorturl", (req, res) => {
     /^(?:(?:https?)|(?:ftp)):\/{2}(?:w{3}\.)?([^\.\s\W]+\.[^\/\s\W]+)\/?$/g;
 
   //2) Url
-  const origUrl = req.body.url;
+  const origUrl = req.body.url.replace(/\/$/g, "");
   const url = req.body.url.replace(regex, "$1");
 
   //3) Check if it's a valid url address of a website
@@ -89,7 +89,7 @@ app.post("/api/shorturl", (req, res) => {
       fs.readFile(__dirname + "/host_lists.json", "utf-8", (err, file) => {
         //1) New entry to append into file of all short lists
         const lineToAppend = {
-          original_url: url,
+          original_url: origUrl,
           short_url: 1,
         };
 
@@ -101,16 +101,16 @@ app.post("/api/shorturl", (req, res) => {
             (err) => {
               //If file creation failed, send response error, else new entry
               if (err) res.json({ error: "Internal server error." });
-              else res.json({ ...lineToAppend, original_url: origUrl });
+              else res.json(lineToAppend);
             }
           );
         else {
           //1) Find item in file of all short urls
           const lists = JSON.parse(file);
-          const foundItem = lists.find((l) => l.original_url === url);
+          const foundItem = lists.find((l) => l.original_url === origUrl);
 
           //2) If exist, send response with item found, else add new entry into file
-          if (foundItem) res.json({ ...foundItem, original_url: origUrl });
+          if (foundItem) res.json(foundItem);
           else {
             //1) Plus counter for short url
             lineToAppend.short_url = lists[lists.length - 1].short_url + 1;
@@ -129,7 +129,7 @@ app.post("/api/shorturl", (req, res) => {
                   //If err, send response error, else proceed further
                   (err) => {
                     if (err) res.json({ error: "Internal server error." });
-                    else res.json({ ...lineToAppend, original_url: origUrl });
+                    else res.json(lineToAppend);
                   }
                 );
               }
