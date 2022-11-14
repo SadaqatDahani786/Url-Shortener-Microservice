@@ -74,13 +74,16 @@ app.get("/api/shorturl/:url", (req, res) => {
 app.post("/api/shorturl", (req, res) => {
   //1) Regex to remove unnecessary parts from url
   const regex =
-    /^(?:(?:https?)|(?:ftp)):\/{2}(?:w{3}\.)?([^\.\s\W]+\.[^\/\s\W]+)\/?$/g;
+    /^(?:(?:https?)|(?:ftp)):\/{2}(?:w{3}\.)?([\w\d-]+\.[\w]+)+(?:\/[\w\d-]*)*(?:\?(?:[\w\d%-]*=?[\w\d%-]*&?)*)?$/g;
 
   //2) Url
   const origUrl = req.body.url.replace(/\/$/g, "");
   const url = req.body.url.replace(regex, "$1");
 
-  //3) Check if it's a valid url address of a website
+  //3) Validate Url
+  if (!regex.test(origUrl)) return res.json({ error: "Invalid Url" });
+
+  //4) Check if it's a valid url address of a website
   dns.lookup(url, (err, address, family) => {
     //If err, send response error, else proceed further
     if (err) res.json({ error: "Invalid Url" });
